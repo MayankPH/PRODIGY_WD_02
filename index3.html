@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mayank Hinge - Stopwatch</title>
+    <style>
+        *,
+        *:before,
+        *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            font-family: 'Arial', sans-serif;
+            color: #000;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #f0f0f0;
+            width: 40%;
+            min-width: 500px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            padding: 20px 0;
+            padding-bottom: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgb(247, 6, 6);
+        }
+
+        .timer-display {
+            position: relative;
+            width: 92%;
+            background: #f0f0f0;
+            left: 4%;
+            font-family: 'Courier New', monospace;
+            color: #3498db;
+            font-size: 36px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.25);
+        }
+
+        .buttons {
+            width: 90%;
+            margin: 60px auto 0 auto;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .buttons button {
+            width: 150px;
+            height: 50px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .buttons button:nth-last-child(2) {
+            background-color: #f39c12;
+        }
+
+        .buttons button:nth-last-child(1) {
+            background-color: #2ecc71;
+        }
+
+        .buttons button:hover {
+            background-color: #c0392b;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .start-button:hover {
+            background-color: #27ae60;
+        }
+
+        .pause-button:hover {
+            background-color: #d35400;
+        }
+
+        .reset-button:hover {
+            background-color: #f1c40f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Mayank Hinge - Stopwatch</h1>
+        <div class="timer-display">
+            00 : 00 : 00
+        </div>
+        <div class="buttons">
+            <button id="start-timer" class="start-button">Start</button>
+            <button id="pause-timer" class="pause-button">Pause</button>
+            <button id="reset-timer" class="reset-button">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+        let timeRef = document.querySelector(".timer-display");
+        let int = null;
+
+        document.getElementById("start-timer").addEventListener("click", () => {
+            if (int !== null) {
+                clearInterval(int);
+            }
+            int = setInterval(displayTimer, 10);
+        });
+
+        document.getElementById("pause-timer").addEventListener("click", () => {
+            clearInterval(int);
+        });
+
+        document.getElementById("reset-timer").addEventListener("click", () => {
+            clearInterval(int);
+            [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+            timeRef.innerHTML = "00 : 00 : 00 ";
+        });
+
+        function displayTimer() {
+            milliseconds += 10;
+            if (milliseconds == 1000) {
+                milliseconds = 0;
+                seconds++;
+                if (seconds == 60) {
+                    seconds = 0;
+                    minutes++;
+                    if (minutes == 60) {
+                        minutes = 0;
+                        hours++;
+                    }
+                }
+            }
+
+            let h = hours < 10 ? "0" + hours : hours;
+            let m = minutes < 10 ? "0" + minutes : minutes;
+            let s = seconds < 10 ? "0" + seconds : seconds;
+
+            timeRef.innerHTML = `${h} : ${m} : ${s}`;
+        }
+    </script>
+</body>
+
+</html>
